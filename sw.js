@@ -9,7 +9,7 @@
 // ブラウザの HTTP キャッシュを通さない（install は reload、fetch は no-cache）。古い main.js と新しい index.html が混ざって動かなくなるのを防ぐ。
 
 const PREFIX = 'kyopro-steps-';
-const VERSION = 'v7';
+const VERSION = 'v8';
 const CACHE = `${PREFIX}${VERSION}`;
 const FONT_CACHE = `${PREFIX}fonts`;
 
@@ -31,6 +31,7 @@ const SHELL = [
   './topics/ch07.js',
   './topics/ch08.js',
   './topics/ch09.js',
+  './topics/ch09b.js',
   './topics/ch10.js',
   './manifest.webmanifest',
   './webapp-kit/webapp-kit.css',
