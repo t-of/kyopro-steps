@@ -11,6 +11,9 @@ const KYOPRO_TOC = [
     { id: 'jo.2', title: 'どんなコンテストがあるか' },
     { id: 'jo.3', title: '求められること' },
   ] },
+  { id: 'cpp', title: 'C++ の文法', items: [
+    { id: 'cpp', title: '覚えておきたい C++ の文法' },
+  ] },
   { id: 'c1', title: '1章 アルゴリズムと計算量', items: [
     { id: '1.0', title: '計算量とは' },
     { id: '1.1', title: '導入問題' },

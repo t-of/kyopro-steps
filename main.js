@@ -76,8 +76,13 @@ function renderTopic(id) {
       <h2>${escapeHtml(meta.chapterTitle)} / ${escapeHtml(data.title)}</h2>
       <div class="explain">${(data.explain || []).map((p) => `<p>${escapeHtml(p)}</p>`).join('')}</div>
 
-      <h3>ステップ実行</h3>
-      <div class="stepper"></div>
+      ${data.code ? '<h3>ステップ実行</h3><div class="stepper"></div>' : ''}
+
+      ${(data.sheet || []).map((sec) => `
+        <h3>${escapeHtml(sec.title)}</h3>
+        <dl class="sheet">
+          ${sec.rows.map(([code, desc]) => `<dt><pre class="code-block"><code>${escapeHtml(code)}</code></pre></dt><dd>${escapeHtml(desc)}</dd>`).join('')}
+        </dl>`).join('')}
 
       ${data.example ? `
         <h3>例題</h3>
@@ -105,7 +110,7 @@ function renderTopic(id) {
       ${navHtml(prev, next)}
     </div>`;
 
-  activeStepper = renderStepper(stage.querySelector('.stepper'), data.code, data.steps);
+  if (data.code) activeStepper = renderStepper(stage.querySelector('.stepper'), data.code, data.steps);
 }
 
 function navHtml(prev, next) {
