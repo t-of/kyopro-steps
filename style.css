@@ -150,6 +150,42 @@ pre.code-block { white-space: pre; }
 .viz__table th, .viz__table td { border: 1px solid var(--line); padding: 4px 7px; text-align: center; min-width: 26px; }
 .viz__table th { color: var(--muted); font-weight: 400; }
 .viz__table td.is-hl { background: rgba(255, 211, 92, 0.3); }
+.viz__graphs { display: flex; flex-direction: column; gap: 10px; }
+.viz__graph { background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 8px; }
+.viz__graphsvg { display: block; width: 100%; height: 200px; }
+.viz__edge { stroke: var(--line); stroke-width: 1.5; }
+.viz__edge.is-current { stroke: var(--accent); stroke-width: 3; }
+.viz__edge.is-used { stroke: #4cb36b; stroke-width: 3; }
+.viz__edge.is-tree { stroke: #5c8dff; stroke-width: 2.5; stroke-dasharray: 5 3; }
+.viz__arrowhead { fill: var(--muted); }
+.viz__edgelabel {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 9px;
+  fill: var(--fg);
+  text-anchor: middle;
+  dominant-baseline: middle;
+  paint-order: stroke fill;
+  stroke: var(--bg);
+  stroke-width: 3;
+}
+.viz__node circle { fill: var(--panel); stroke: var(--line); stroke-width: 1.5; }
+.viz__nodelabel {
+  font-size: 10px; font-weight: 600; fill: var(--fg);
+  text-anchor: middle; dominant-baseline: middle;
+}
+.viz__nodesub { font-size: 8px; fill: var(--muted); text-anchor: middle; }
+.viz__node.is-current circle { fill: var(--accent); stroke: var(--accent); }
+.viz__node.is-current .viz__nodelabel { fill: #1b1f27; }
+.viz__node.is-frontier circle { fill: var(--panel); stroke: var(--accent); stroke-width: 2; stroke-dasharray: 3 2; }
+.viz__node.is-done circle { fill: #4cb36b; stroke: #4cb36b; }
+.viz__node.is-done .viz__nodelabel { fill: #0c1f14; }
+.viz__node.is-group0 circle { fill: #5c8dff; stroke: #5c8dff; }
+.viz__node.is-group1 circle { fill: #ff6ec7; stroke: #ff6ec7; }
+.viz__node.is-group2 circle { fill: #58d68d; stroke: #58d68d; }
+.viz__node.is-group3 circle { fill: #ffb15c; stroke: #ffb15c; }
+.viz__node.is-group4 circle { fill: #b388ff; stroke: #b388ff; }
+.viz__node.is-group5 circle { fill: #4dd0e1; stroke: #4dd0e1; }
+.viz__node[class*="is-group"] .viz__nodelabel { fill: #16181c; }
 .viz__note { margin: 0; min-height: 24px; color: var(--fg); background: var(--panel); border: 1px solid var(--line); border-radius: 8px; padding: 8px 10px; font-size: 14px; }
 
 .viz__controls { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin-top: 10px; }

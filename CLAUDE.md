@@ -41,5 +41,16 @@ registerTopic('3.1', {
 5. 本部で `npm run audit -- kyopro-steps` を通す。解答の C++ は手元で `g++ -std=c++17` にかけ、例題の入出力と一致するか確かめる。
 
 ステップ図のフレーム（`steps` の要素）は `viz.js` 冒頭のコメントに形がある。配列は `array`（1 つ）か `arrays`（複数）、
-表・グリッドは `table` / `grid`（同じ形。二次元 DP でも二次元累積和でも使える）。グラフはまだ描画を作っていない
-（9 章で足す人が `viz.js` に `drawGraph` を追加する）。
+表・グリッドは `table` / `grid`（同じ形。二次元 DP でも二次元累積和でも使える）。
+
+グラフ（頂点と辺）は `graph`（1 つ）か `graphs`（複数。残余グラフと元のグラフを並べる等）で渡す。SVG で描く。
+
+```js
+graph: {
+  label: 'グラフ',
+  nodes: [{ id: 1, x: 0.1, y: 0.5, label: '1', sub: 'd=0' }, ...], // x,y は 0〜1 の相対座標。sub は頂点の下に出す小さな値（距離・grundy 数など）
+  edges: [{ from: 1, to: 2, w: 5, directed: false, label: '3/5' }, ...], // w か label を辺の中ほどに出す。同じ2頂点間に複数辺があれば自動で曲げる
+  hlNodes: { 1: 'done', 2: 'current', 3: 'frontier' }, // 他に group0〜group5（Union-Find の組・二部グラフの色分けなど）
+  hlEdges: [{ from: 1, to: 2, kind: 'current' | 'used' | 'tree' }], // used=採用（最小全域木・マッチング）、tree=探索木の辺
+}
+```

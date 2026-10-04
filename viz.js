@@ -9,10 +9,18 @@
 //     arrays: [ {..}, {..} ],                     // 配列が複数いるときは array の代わりにこちら
 //     table: { label: 'dp', rows: [...], cols: [...], data: [[0,1],[1,2]], hl: [[0,1]] },
 //     grid: { ... }                               // table と同じ形（二次元累積和などに使う）
+//     graph: {                                     // 頂点と辺のグラフ（9章 グラフアルゴリズムで使う）
+//       label: 'グラフ',
+//       nodes: [{ id: 1, x: 0.1, y: 0.5, label: '1', sub: 'd=0' }, ...], // x,y は 0〜1 の相対座標。sub は頂点の下の小さな値（距離など）
+//       edges: [{ from: 1, to: 2, w: 5, directed: false, label: '3/5' }, ...], // w か label を辺の中ほどに出す
+//       hlNodes: { 1: 'done', 2: 'current', 3: 'frontier' },  // 他に group0〜group5（Union-Find の組・二部グラフの色分け）
+//       hlEdges: [{ from: 1, to: 2, kind: 'current' | 'used' | 'tree' }],
+//     },
+//     graphs: [ {..}, {..} ],                     // グラフが複数いるときは graph の代わりにこちら（残余グラフと元のグラフなど）
 //     note: 'この行で i 番目を足す',
 //   }
 //
-// 外部ライブラリなし。SVG は使わず DOM + CSS で組む。
+// 外部ライブラリなし。配列・表は DOM + CSS、グラフだけ SVG で組む。
 
 function renderStepper(container, code, steps) {
   const lines = code.replace(/\t/g, '  ').split('\n');
@@ -26,6 +34,7 @@ function renderStepper(container, code, steps) {
         <div class="viz__vars"></div>
         <div class="viz__arrays"></div>
         <div class="viz__tables"></div>
+        <div class="viz__graphs"></div>
         <p class="viz__note"></p>
       </div>
     </div>
@@ -43,6 +52,7 @@ function renderStepper(container, code, steps) {
   const varsEl = container.querySelector('.viz__vars');
   const arraysEl = container.querySelector('.viz__arrays');
   const tablesEl = container.querySelector('.viz__tables');
+  const graphsEl = container.querySelector('.viz__graphs');
   const noteEl = container.querySelector('.viz__note');
   const posEl = container.querySelector('.viz__pos');
   const playBtn = container.querySelector('[data-act="play"]');
@@ -66,6 +76,9 @@ function renderStepper(container, code, steps) {
 
     const tables = [].concat(f.table || [], f.grid || []);
     tablesEl.innerHTML = tables.map(drawTable).join('');
+
+    const graphs = f.graphs || (f.graph ? [f.graph] : []);
+    graphsEl.innerHTML = graphs.map(drawGraph).join('');
 
     noteEl.textContent = f.note || '';
     posEl.textContent = steps.length ? `${cur + 1} / ${steps.length}` : '0 / 0';
@@ -97,6 +110,76 @@ function renderStepper(container, code, steps) {
     return `<div class="viz__table">${t.label ? `<div class="viz__arrlabel">${escapeHtml(t.label)}</div>` : ''}<table>${head}${body}</table></div>`;
   }
 
+  function drawGraph(g) {
+    const W = 300, H = 180, PAD = 22, R = 13;
+    const pos = {};
+    for (const n of g.nodes) {
+      pos[n.id] = { x: PAD + n.x * (W - 2 * PAD), y: PAD + n.y * (H - 2 * PAD) };
+    }
+    const hlNodes = g.hlNodes || {};
+    const hlEdges = g.hlEdges || [];
+    const markerId = `viz-arrow-${graphSeq++}`;
+
+    // 同じ 2 頂点間に複数の辺があれば（残余グラフの往復など）、互い違いに曲げて重ならないようにする。
+    const pairTotal = {};
+    for (const e of g.edges || []) {
+      const key = [e.from, e.to].sort().join('-');
+      pairTotal[key] = (pairTotal[key] || 0) + 1;
+    }
+    const pairSeen = {};
+    const edgesSvg = (g.edges || []).map((e) => {
+      const a = pos[e.from], b = pos[e.to];
+      if (!a || !b) return '';
+      const key = [e.from, e.to].sort().join('-');
+      const idx = pairSeen[key] = (pairSeen[key] || 0);
+      pairSeen[key] += 1;
+      const total = pairTotal[key];
+      const curve = total > 1 ? (idx - (total - 1) / 2) * 16 : 0;
+
+      const match = hlEdges.find((h) => (h.from === e.from && h.to === e.to) || (!e.directed && h.from === e.to && h.to === e.from));
+      const cls = match ? `viz__edge is-${match.kind}` : 'viz__edge';
+
+      const mid = { x: (a.x + b.x) / 2, y: (a.y + b.y) / 2 };
+      const dx = b.x - a.x, dy = b.y - a.y;
+      const len = Math.hypot(dx, dy) || 1;
+      const ctrl = { x: mid.x + (-dy / len) * curve, y: mid.y + (dx / len) * curve };
+      const aEdge = pointTowards(a, curve ? ctrl : b, R);
+      const bEdge = pointTowards(b, curve ? ctrl : a, R);
+      const path = curve
+        ? `M ${aEdge.x} ${aEdge.y} Q ${ctrl.x} ${ctrl.y} ${bEdge.x} ${bEdge.y}`
+        : `M ${aEdge.x} ${aEdge.y} L ${bEdge.x} ${bEdge.y}`;
+
+      const text = e.label != null ? e.label : e.w;
+      const labelPos = curve ? ctrl : mid;
+      return `<path class="${cls}" d="${path}" fill="none" ${e.directed ? `marker-end="url(#${markerId})"` : ''}/>` +
+        (text != null ? `<text class="viz__edgelabel" x="${labelPos.x}" y="${labelPos.y}">${escapeHtml(String(text))}</text>` : '');
+    }).join('');
+
+    const nodesSvg = g.nodes.map((n) => {
+      const p = pos[n.id];
+      const state = hlNodes[n.id];
+      const cls = state ? `viz__node is-${state}` : 'viz__node';
+      return `<g class="${cls}">
+        <circle cx="${p.x}" cy="${p.y}" r="${R}"/>
+        <text class="viz__nodelabel" x="${p.x}" y="${p.y}">${escapeHtml(String(n.label != null ? n.label : n.id))}</text>
+        ${n.sub != null ? `<text class="viz__nodesub" x="${p.x}" y="${p.y + R + 10}">${escapeHtml(String(n.sub))}</text>` : ''}
+      </g>`;
+    }).join('');
+
+    return `<div class="viz__graph">
+      ${g.label ? `<div class="viz__arrlabel">${escapeHtml(g.label)}</div>` : ''}
+      <svg class="viz__graphsvg" viewBox="0 0 ${W} ${H}">
+        <defs>
+          <marker id="${markerId}" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto">
+            <path d="M0,0 L8,4 L0,8 z" class="viz__arrowhead"/>
+          </marker>
+        </defs>
+        ${edgesSvg}
+        ${nodesSvg}
+      </svg>
+    </div>`;
+  }
+
   function stop() {
     if (timer) { clearInterval(timer); timer = null; playBtn.textContent = '自動再生'; }
   }
@@ -124,4 +207,12 @@ function renderStepper(container, code, steps) {
 
 function escapeHtml(s) {
   return s.replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+}
+
+let graphSeq = 0; // <marker> の id を図ごとに別にするための連番
+
+function pointTowards(from, to, dist) {
+  const dx = to.x - from.x, dy = to.y - from.y;
+  const len = Math.hypot(dx, dy) || 1;
+  return { x: from.x + (dx / len) * dist, y: from.y + (dy / len) * dist };
 }
