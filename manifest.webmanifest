@@ -1,0 +1,19 @@
+{
+  "id": "./",
+  "name": "kyopro-steps — 競プロの技法をステップ実行で学ぶ",
+  "short_name": "kyopro-steps",
+  "description": "競技プログラミングの技法を、コードを1行ずつ動かしながら学べるサイト。",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#1b1f27",
+  "theme_color": "#1b1f27",
+  "lang": "ja",
+  "icons": [
+    { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "icons/maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" },
+    { "src": "icons/icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" }
+  ]
+}

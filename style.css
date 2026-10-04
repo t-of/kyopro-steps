@@ -1,0 +1,160 @@
+:root {
+  --bg: #1b1f27;
+  --fg: #eceef3;
+  --muted: #9aa0ab;
+  --accent: #ffd35c;
+  --line: rgba(255, 255, 255, 0.12);
+  --panel: rgba(255, 255, 255, 0.05);
+}
+
+@media (prefers-color-scheme: light) {
+  :root {
+    --bg: #f6f6f4;
+    --fg: #1b1f27;
+    --muted: #5b6270;
+    --line: rgba(0, 0, 0, 0.12);
+    --panel: rgba(0, 0, 0, 0.04);
+  }
+}
+
+* { box-sizing: border-box; }
+
+html { background-color: var(--bg); -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  background-color: var(--bg);
+  color: var(--fg);
+  font-family: system-ui, -apple-system, 'Hiragino Sans', 'Noto Sans JP', sans-serif;
+  font-size: 16px;
+  line-height: 1.7;
+  -webkit-tap-highlight-color: transparent;
+}
+a { color: inherit; }
+button { font: inherit; color: inherit; }
+[hidden] { display: none !important; }
+
+.app {
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  padding:
+    max(12px, env(safe-area-inset-top))
+    max(12px, env(safe-area-inset-right))
+    max(16px, env(safe-area-inset-bottom))
+    max(12px, env(safe-area-inset-left));
+  max-width: 960px;
+  margin: 0 auto;
+  width: 100%;
+}
+.bar { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+.bar__title { margin: 0; font-size: 18px; }
+.bar__title a { text-decoration: none; }
+.bar__actions { display: flex; gap: 8px; }
+.pill {
+  border: 1px solid var(--line);
+  background: var(--panel);
+  border-radius: 999px;
+  padding: 6px 14px;
+  font-size: 13px;
+  cursor: pointer;
+}
+.stage {
+  flex: 1;
+  touch-action: manipulation;
+  padding: 16px 0 24px;
+}
+.credit { text-align: center; font-size: 12px; color: var(--muted); }
+.credit a { color: inherit; }
+
+/* ---- 一覧ページ ---- */
+.lead { color: var(--muted); margin-top: 0; }
+.chapter { margin-bottom: 24px; }
+.chapter h2 { font-size: 16px; border-bottom: 1px solid var(--line); padding-bottom: 6px; }
+.topic-list { list-style: none; margin: 8px 0 0; padding: 0; display: grid; gap: 6px; }
+.topic-link {
+  display: flex; align-items: center; justify-content: space-between; gap: 8px;
+  text-decoration: none;
+  padding: 10px 12px;
+  border-radius: 10px;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  min-height: 44px;
+}
+.topic-link.is-pending { opacity: 0.55; }
+.badge { font-size: 11px; color: var(--muted); border: 1px solid var(--line); border-radius: 999px; padding: 2px 8px; }
+
+/* ---- 項目ページ ---- */
+.page--topic h2 { font-size: 18px; }
+.page--topic h3 { font-size: 15px; margin-top: 28px; color: var(--muted); }
+.explain p { margin: 0 0 10px; }
+.pending { color: var(--muted); }
+
+.topic-nav {
+  display: flex; justify-content: space-between; gap: 12px;
+  margin-top: 28px; padding-top: 12px; border-top: 1px solid var(--line);
+}
+.topic-nav a { text-decoration: none; font-size: 14px; }
+
+/* ---- 例題・解答 ---- */
+.constraints { color: var(--muted); font-size: 14px; }
+.sample { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin: 10px 0; }
+.sample pre, pre.code-block {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 8px 10px;
+  overflow-x: auto;
+  font-size: 13px;
+  margin: 4px 0 0;
+}
+.solution summary { cursor: pointer; font-weight: 600; padding: 8px 0; }
+pre.code-block { white-space: pre; }
+
+/* ---- ステップ実行（viz.js が中身を描く） ---- */
+.viz { display: grid; grid-template-columns: 1fr; gap: 12px; }
+@media (min-width: 760px) {
+  .viz { grid-template-columns: 1fr 1fr; align-items: start; }
+}
+.viz__code {
+  margin: 0;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 10px 0;
+  overflow-x: auto;
+  font-size: 13px;
+  line-height: 1.6;
+  max-height: 360px;
+  overflow-y: auto;
+}
+.viz__line { display: block; padding: 0 12px; white-space: pre; }
+.viz__line.is-current { background: rgba(255, 211, 92, 0.22); border-left: 3px solid var(--accent); padding-left: 9px; }
+.viz__state { display: flex; flex-direction: column; gap: 10px; }
+.viz__vars { display: flex; flex-wrap: wrap; gap: 6px; min-height: 28px; }
+.viz__chip {
+  background: var(--panel); border: 1px solid var(--line); border-radius: 6px;
+  padding: 3px 8px; font-size: 13px; font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+}
+.viz__arrays, .viz__tables { display: flex; flex-direction: column; gap: 10px; }
+.viz__arrlabel { font-size: 12px; color: var(--muted); margin-bottom: 4px; }
+.viz__row { display: flex; gap: 4px; overflow-x: auto; padding-bottom: 4px; }
+.viz__cell { flex: 0 0 auto; width: 42px; text-align: center; }
+.viz__cellval {
+  border: 1px solid var(--line); border-radius: 6px; padding: 6px 2px;
+  background: var(--panel); font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+}
+.viz__cell.is-hl .viz__cellval { background: rgba(255, 211, 92, 0.3); border-color: var(--accent); }
+.viz__cellidx { font-size: 11px; color: var(--muted); }
+.viz__cellptr { font-size: 11px; color: var(--accent); }
+.viz__table table { border-collapse: collapse; font-size: 13px; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
+.viz__table th, .viz__table td { border: 1px solid var(--line); padding: 4px 7px; text-align: center; min-width: 26px; }
+.viz__table th { color: var(--muted); font-weight: 400; }
+.viz__table td.is-hl { background: rgba(255, 211, 92, 0.3); }
+.viz__note { margin: 0; min-height: 24px; color: var(--fg); background: var(--panel); border: 1px solid var(--line); border-radius: 8px; padding: 8px 10px; font-size: 14px; }
+
+.viz__controls { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin-top: 10px; }
+.viz__controls button {
+  border: 1px solid var(--line); background: var(--panel); border-radius: 8px;
+  padding: 8px 12px; min-height: 44px; cursor: pointer; font-size: 13px;
+}
+.viz__pos { color: var(--muted); font-size: 13px; margin-left: auto; }
