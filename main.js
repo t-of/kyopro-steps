@@ -82,13 +82,17 @@ function renderTopic(id) {
       ${data.example ? `
         <h3>例題</h3>
         <div class="example">
-          <p>${escapeHtml(data.example.statement)}</p>
-          ${data.example.constraints ? `<p class="constraints"><b>制約</b><br>${data.example.constraints.map(escapeHtml).join('<br>')}</p>` : ''}
+          <h4>問題文</h4>
+          ${String(data.example.statement).split('\n\n').map((p) => `<p>${escapeHtml(p)}</p>`).join('')}
+          ${data.example.constraints ? `<h4>制約</h4><ul>${data.example.constraints.map((c) => `<li>${escapeHtml(c)}</li>`).join('')}</ul>` : ''}
+          ${data.example.input ? `<h4>入力</h4><p>入力は以下の形式で標準入力から与えられる。</p><pre>${escapeHtml(data.example.input)}</pre>` : ''}
+          ${data.example.output ? `<h4>出力</h4><p>${escapeHtml(data.example.output)}</p>` : ''}
           ${(data.example.samples || []).map((s, i) => `
             <div class="sample">
-              <div><b>入力例 ${i + 1}</b><pre>${escapeHtml(s.input)}</pre></div>
-              <div><b>出力例 ${i + 1}</b><pre>${escapeHtml(s.output)}</pre></div>
-            </div>`).join('')}
+              <div><h4>入力例 ${i + 1}</h4><pre>${escapeHtml(s.input)}</pre></div>
+              <div><h4>出力例 ${i + 1}</h4><pre>${escapeHtml(s.output)}</pre></div>
+            </div>
+            ${s.note ? `<p>${escapeHtml(s.note)}</p>` : ''}`).join('')}
         </div>` : ''}
 
       ${data.solution ? `

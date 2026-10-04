@@ -31,7 +31,14 @@ registerTopic('3.1', {
   // steps はできるだけ「実際にそのアルゴリズムを JS で動かして」作る（手計算ミスを防ぐ）。
   // フレームの形は viz.js の先頭コメントを見る: { line, vars, array/arrays, table/grid, note }
   steps: [ { line: 4, vars: { lo: 0, hi: 7 }, array: { label: 'a', values: [...], hl: [3] }, note: '...' } ],
-  example: { statement: 'オリジナルの問題文', constraints: ['...'], samples: [{ input: '...', output: '...' }] },
+  // 例題は AtCoder（ABC の A〜E 問題）の書き方に寄せる。下の「例題の書き方」を見る
+  example: {
+    statement: '高橋君は…。\n\n…を求めてください。',   // 段落は \n\n で区切る
+    constraints: ['1 ≤ N ≤ 2 × 10^5', '1 ≤ A_i ≤ 10^9', '入力はすべて整数'],
+    input: 'N\nA_1 A_2 … A_N',                         // 入力形式（「入力は以下の形式で…」の下に出る）
+    output: '答えを出力してください。',                   // 出力の説明
+    samples: [{ input: '...', output: '...', note: '入力例の説明（省略可）' }],
+  },
   solution: { idea: '考え方', code: `実際に g++ -std=c++17 でコンパイルして確かめた C++` },
 });
 ```
@@ -39,6 +46,15 @@ registerTopic('3.1', {
 3. `index.html` に `<script src="./topics/chNN.js"></script>` を足す（`viz.js` より前、`main.js` より前）。
 4. `sw.js` の `SHELL` にも `./topics/chNN.js` を足す（オフラインで開けるように）。
 5. 本部で `npm run audit -- kyopro-steps` を通す。解答の C++ は手元で `g++ -std=c++17` にかけ、例題の入出力と一致するか確かめる。
+
+## 例題の書き方（AtCoder 風）
+
+- 問題文は「高橋君」「青木君」などが出てくる短いお話にし、「〜を求めてください。」「〜を出力してください。」で結ぶ。
+- 文字は AtCoder と同じく N, M, A_i, S のような大文字中心。添字は `A_i`、べきは `10^9` と書く（数式記法は使わない）。
+- 制約は 1 行 1 つ。数値の入力があるなら最後に「入力はすべて整数」。
+- Yes/No で答える問題は `Yes` / `No` を出力させる。
+- 入力例は 2〜3 個あるとよい。2 個目以降は端のケース（答えが No になる、最小の N など）。`note` に短い説明を付けてよい。
+- 解答の C++ は入力形式と食い違わないこと。例題を変えたら `g++ -std=c++17` で全部の入力例を通して確かめる。
 
 ステップ図のフレーム（`steps` の要素）は `viz.js` 冒頭のコメントに形がある。配列は `array`（1 つ）か `arrays`（複数）、
 表・グリッドは `table` / `grid`（同じ形。二次元 DP でも二次元累積和でも使える）。

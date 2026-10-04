@@ -1,20 +1,20 @@
 :root {
-  --bg: #1b1f27;
-  --fg: #eceef3;
-  --muted: #9aa0ab;
-  --accent: #ffd35c;
-  --line: rgba(255, 255, 255, 0.12);
-  --panel: rgba(255, 255, 255, 0.05);
-}
-
-@media (prefers-color-scheme: light) {
-  :root {
-    --bg: #f6f6f4;
-    --fg: #1b1f27;
-    --muted: #5b6270;
-    --line: rgba(0, 0, 0, 0.12);
-    --panel: rgba(0, 0, 0, 0.04);
-  }
+  /* 白背景（AtCoder の問題ページに寄せた配色） */
+  --bg: #ffffff;
+  --fg: #333333;
+  --muted: #6b7280;
+  --accent: #e0a100;
+  --hl: rgba(255, 214, 64, 0.35);
+  --link: #337ab7;
+  --line: #dddddd;
+  --panel: #f7f7f7;
+  --wak-bg: #ffffff;
+  --wak-fg: #333333;
+  --wak-muted: #6b7280;
+  --wak-line: #dddddd;
+  --wak-accent: #337ab7;
+  --wak-accent-fg: #ffffff;
+  color-scheme: light;
 }
 
 * { box-sizing: border-box; }
@@ -29,7 +29,8 @@ body {
   line-height: 1.7;
   -webkit-tap-highlight-color: transparent;
 }
-a { color: inherit; }
+a { color: var(--link); }
+.bar__title a, .topic-link { color: inherit; }
 button { font: inherit; color: inherit; }
 [hidden] { display: none !important; }
 
@@ -64,7 +65,8 @@ button { font: inherit; color: inherit; }
   padding: 16px 0 24px;
 }
 .credit { text-align: center; font-size: 12px; color: var(--muted); }
-.credit a { color: inherit; }
+.credit a { color: var(--link); }
+.bar__title a, .topic-link { color: inherit; }
 
 /* ---- 一覧ページ ---- */
 .lead { color: var(--muted); margin-top: 0; }
@@ -96,8 +98,8 @@ button { font: inherit; color: inherit; }
 .topic-nav a { text-decoration: none; font-size: 14px; }
 
 /* ---- 例題・解答 ---- */
-.constraints { color: var(--muted); font-size: 14px; }
-.sample { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin: 10px 0; }
+.sample { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 0; }
+.sample h4 { margin-top: 16px; }
 .sample pre, pre.code-block {
   background: var(--panel);
   border: 1px solid var(--line);
@@ -106,6 +108,15 @@ button { font: inherit; color: inherit; }
   overflow-x: auto;
   font-size: 13px;
   margin: 4px 0 0;
+}
+.example h4 {
+  font-size: 15px; margin: 20px 0 6px; padding-bottom: 4px;
+  border-bottom: 1px solid var(--line);
+}
+.example ul { margin: 0; padding-left: 1.4em; }
+.example pre {
+  background: var(--panel); border: 1px solid var(--line); border-radius: 4px;
+  padding: 8px 10px; overflow-x: auto; font-size: 13px; margin: 4px 0 0;
 }
 .solution summary { cursor: pointer; font-weight: 600; padding: 8px 0; }
 pre.code-block { white-space: pre; }
@@ -128,7 +139,7 @@ pre.code-block { white-space: pre; }
   overflow-y: auto;
 }
 .viz__line { display: block; padding: 0 12px; white-space: pre; }
-.viz__line.is-current { background: rgba(255, 211, 92, 0.22); border-left: 3px solid var(--accent); padding-left: 9px; }
+.viz__line.is-current { background: var(--hl); border-left: 3px solid var(--accent); padding-left: 9px; }
 .viz__state { display: flex; flex-direction: column; gap: 10px; }
 .viz__vars { display: flex; flex-wrap: wrap; gap: 6px; min-height: 28px; }
 .viz__chip {
@@ -143,17 +154,17 @@ pre.code-block { white-space: pre; }
   border: 1px solid var(--line); border-radius: 6px; padding: 6px 2px;
   background: var(--panel); font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
 }
-.viz__cell.is-hl .viz__cellval { background: rgba(255, 211, 92, 0.3); border-color: var(--accent); }
+.viz__cell.is-hl .viz__cellval { background: var(--hl); border-color: var(--accent); }
 .viz__cellidx { font-size: 11px; color: var(--muted); }
-.viz__cellptr { font-size: 11px; color: var(--accent); }
+.viz__cellptr { font-size: 11px; color: #b07d00; }
 .viz__table table { border-collapse: collapse; font-size: 13px; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
 .viz__table th, .viz__table td { border: 1px solid var(--line); padding: 4px 7px; text-align: center; min-width: 26px; }
 .viz__table th { color: var(--muted); font-weight: 400; }
-.viz__table td.is-hl { background: rgba(255, 211, 92, 0.3); }
+.viz__table td.is-hl { background: var(--hl); }
 .viz__graphs { display: flex; flex-direction: column; gap: 10px; }
 .viz__graph { background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 8px; }
 .viz__graphsvg { display: block; width: 100%; height: 200px; }
-.viz__edge { stroke: var(--line); stroke-width: 1.5; }
+.viz__edge { stroke: #b8bcc4; stroke-width: 1.5; }
 .viz__edge.is-current { stroke: var(--accent); stroke-width: 3; }
 .viz__edge.is-used { stroke: #4cb36b; stroke-width: 3; }
 .viz__edge.is-tree { stroke: #5c8dff; stroke-width: 2.5; stroke-dasharray: 5 3; }
@@ -168,7 +179,7 @@ pre.code-block { white-space: pre; }
   stroke: var(--bg);
   stroke-width: 3;
 }
-.viz__node circle { fill: var(--panel); stroke: var(--line); stroke-width: 1.5; }
+.viz__node circle { fill: #fff; stroke: #9aa0ab; stroke-width: 1.5; }
 .viz__nodelabel {
   font-size: 10px; font-weight: 600; fill: var(--fg);
   text-anchor: middle; dominant-baseline: middle;
@@ -176,9 +187,9 @@ pre.code-block { white-space: pre; }
 .viz__nodesub { font-size: 8px; fill: var(--muted); text-anchor: middle; }
 .viz__node.is-current circle { fill: var(--accent); stroke: var(--accent); }
 .viz__node.is-current .viz__nodelabel { fill: #1b1f27; }
-.viz__node.is-frontier circle { fill: var(--panel); stroke: var(--accent); stroke-width: 2; stroke-dasharray: 3 2; }
+.viz__node.is-frontier circle { fill: #fff; stroke: var(--accent); stroke-width: 2; stroke-dasharray: 3 2; }
 .viz__node.is-done circle { fill: #4cb36b; stroke: #4cb36b; }
-.viz__node.is-done .viz__nodelabel { fill: #0c1f14; }
+.viz__node.is-done .viz__nodelabel { fill: #fff; }
 .viz__node.is-group0 circle { fill: #5c8dff; stroke: #5c8dff; }
 .viz__node.is-group1 circle { fill: #ff6ec7; stroke: #ff6ec7; }
 .viz__node.is-group2 circle { fill: #58d68d; stroke: #58d68d; }
