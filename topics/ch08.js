@@ -34,9 +34,14 @@
     ].join('\n'),
     steps,
     example: {
-      statement: '長さ N の数列に対して、「先頭の値を 1 個取り除く」という操作を Q 回行う（先頭がなくなったら何もしない）。すべての操作が終わった後に残っている数列を出力せよ。',
-      constraints: ['1 ≤ N ≤ 2×10^5', '1 ≤ Q ≤ 2×10^5'],
-      samples: [{ input: '5 3\n10 20 30 40 50', output: '40 50' }],
+      statement: '高橋君は長さ N の数列 A を持っている。数列の先頭の値を 1 個取り除くという操作を Q 回行う（先頭がなくなったら何もしない）。すべての操作が終わった後に残っている数列を求めてください。',
+      constraints: ['1 ≤ N ≤ 2×10^5', '1 ≤ Q ≤ 2×10^5', '1 ≤ A_i ≤ 10^9', '入力はすべて整数'],
+      input: 'N Q\nA_1 A_2 … A_N',
+      output: '残っている数列を、先頭から順に空白区切りで 1 行に出力してください（何も残っていなければ空行を出力してください）。',
+      samples: [
+        { input: '5 3\n10 20 30 40 50', output: '40 50' },
+        { input: '3 5\n1 2 3', output: '', note: 'Q が N 以上で、すべて取り除かれる場合。' },
+      ],
     },
     solution: {
       idea: 'vector の先頭を何度も erase すると 1 回 O(N) で、合計 O(NQ) になり N, Q が大きいと間に合わない。先頭から取り除くだけでよいなら、実際には消さずに「今の先頭の添字（開始位置）」を 1 つずつ進める deque や、添字管理だけで O(1) に抑えられる。8.2 のキューで詳しく扱う。',
@@ -110,8 +115,10 @@
     ].join('\n'),
     steps,
     example: {
-      statement: '"(" と ")" だけからなる文字列 S が与えられる。S が正しい括弧列（すべての "(" が、それより右にある対応する ")" とちょうど 1 対 1 で対応する）かどうかを判定せよ。',
+      statement: '高橋君は "(" と ")" だけからなる文字列 S を持っている。S が正しい括弧列（すべての "(" が、それより右にある対応する ")" とちょうど 1 対 1 で対応する）かどうかを判定してください。',
       constraints: ['1 ≤ |S| ≤ 2×10^5'],
+      input: 'S',
+      output: '正しい括弧列なら Yes、そうでなければ No を出力してください。',
       samples: [
         { input: '(()())', output: 'Yes' },
         { input: '(()', output: 'No' },
@@ -185,9 +192,14 @@
     ].join('\n'),
     steps,
     example: {
-      statement: 'Q 個のクエリを順に処理する。クエリは 2 種類: "P x"（整理券番号 x の人が列に並ぶ）、"S"（先頭の人を呼び出して対応する。対応した人の番号を出力する）。すべての "S" クエリへの出力を順に答えよ。',
+      statement: '高橋君の窓口に、整理券を持った人たちが並ぶ。Q 個のクエリを順に処理してください。クエリは 2 種類あり、"P x" は整理券番号 x の人が列に並ぶ、"S" は先頭の人を呼び出して対応したことを表す。',
       constraints: ['1 ≤ Q ≤ 2×10^5', '1 ≤ x ≤ 10^9', '"S" が来るとき列は空でない'],
-      samples: [{ input: '8\nP 101\nP 102\nS\nP 103\nS\nP 104\nS\nS', output: '101\n102\n103\n104' }],
+      input: 'Q\nクエリ_1\n⋮\nクエリ_Q',
+      output: '"S" のクエリそれぞれについて、対応した人の番号を 1 行ずつ出力してください。',
+      samples: [
+        { input: '8\nP 101\nP 102\nS\nP 103\nS\nP 104\nS\nS', output: '101\n102\n103\n104' },
+        { input: '2\nP 7\nS', output: '7', note: '1 人だけ並んですぐ対応する場合。' },
+      ],
     },
     solution: {
       idea: 'queue<int> に整理券番号をそのまま push し、"S" が来たら front を出力して pop する。すべて O(1) なので全体 O(Q)。',
@@ -296,9 +308,14 @@
     ].join('\n'),
     steps,
     example: {
-      statement: 'N 個の整数を順に 1 つずつ受け取って push する。すべて push し終えたら、「top を出力して pop する」を 2 回繰り返せ（N ≥ 2 とする）。',
-      constraints: ['2 ≤ N ≤ 2×10^5'],
-      samples: [{ input: '5\n5 9 3 8 1', output: '9\n8' }],
+      statement: '高橋君は N 個の整数を順に 1 つずつ受け取り、優先度付きキューに push していく。すべて push し終えたら、「一番大きい値を出力して取り除く」を 2 回繰り返してください（N ≥ 2 とする）。',
+      constraints: ['2 ≤ N ≤ 2×10^5', '1 ≤ A_i ≤ 10^9', '入力はすべて整数'],
+      input: 'N\nA_1 A_2 … A_N',
+      output: '2 回分の出力を、それぞれ 1 行ずつ出力してください。',
+      samples: [
+        { input: '5\n5 9 3 8 1', output: '9\n8' },
+        { input: '2\n4 4', output: '4\n4', note: '同じ値が複数ある場合。' },
+      ],
     },
     solution: {
       idea: 'priority_queue<int> に全部 push すると、内部の二分ヒープが自動で「根が最大値」の状態を保つ。top・pop を 2 回呼べば、大きい順に 2 個取り出せる。',
@@ -357,9 +374,14 @@
     ].join('\n'),
     steps,
     example: {
-      statement: 'N 個の単語が与えられる。相異なる単語が何種類あるかを出力し、続けて最も多く出てきた単語の出現回数を出力せよ（同数が複数あれば好きなものでよい）。',
+      statement: '高橋君は N 個の単語を記録している。相異なる単語が何種類あるかと、最も多く出てきた単語の出現回数を求めてください（出現回数が最大の単語が複数あれば、そのうちどれを選んでもよい）。',
       constraints: ['1 ≤ N ≤ 2×10^5', '単語は英小文字のみ、長さ 1 以上 20 以下'],
-      samples: [{ input: '6\napple banana apple cherry banana apple', output: '3\n3' }],
+      input: 'N\nS_1 S_2 … S_N',
+      output: '1 行目に相異なる単語の種類数、2 行目に最も多い出現回数を出力してください。',
+      samples: [
+        { input: '6\napple banana apple cherry banana apple', output: '3\n3' },
+        { input: '1\nword', output: '1\n1', note: '単語が 1 個だけの場合。' },
+      ],
     },
     solution: {
       idea: 'unordered_map<string,int> に出現回数を数える。種類数は counts.size()、最大の出現回数は全体を回って最大値を取るだけ。全体で O(N)（ハッシュの平均計算量）。',
@@ -425,9 +447,14 @@
     ].join('\n'),
     steps,
     example: {
-      statement: 'N 個の整数を 1 つずつ集合に insert する（同じ値は 1 回しか入らないとしてよい）。その後、整数 X が与えられるので、集合の中で X 以上の値のうち最小のものを出力せよ（なければ -1）。',
-      constraints: ['1 ≤ N ≤ 2×10^5', '1 ≤ 各値, X ≤ 10^9'],
-      samples: [{ input: '5\n5 1 9 3 7\n4', output: '5' }],
+      statement: '高橋君は N 個の整数を 1 つずつ集合に insert していく（同じ値は 1 回しか入らないとしてよい）。すべて insert し終えたら、整数 X が与えられるので、集合の中で X 以上の値のうち最小のものを求めてください（なければ -1 としてください）。',
+      constraints: ['1 ≤ N ≤ 2×10^5', '1 ≤ A_i, X ≤ 10^9', '入力はすべて整数'],
+      input: 'N\nA_1 A_2 … A_N\nX',
+      output: '答えを出力してください。',
+      samples: [
+        { input: '5\n5 1 9 3 7\n4', output: '5' },
+        { input: '3\n1 2 3\n10', output: '-1', note: 'X 以上の値が集合に無い場合。' },
+      ],
     },
     solution: {
       idea: 'set<int> に全部 insert すれば常にソート済みになる。lower_bound(X) で「X 以上の最小値」の位置が O(log N) で求まる。end() なら該当なし。',
@@ -498,9 +525,14 @@
     ].join('\n'),
     steps,
     example: {
-      statement: '英小文字からなる文字列 S と、クエリ (l, r) が与えられる。S の部分文字列 S[l..r)（0-indexed、l 文字目から r 文字目の手前まで）のローリングハッシュ値（B=131, M=1000000007）を求めよ。',
+      statement: '高橋君は英小文字からなる文字列 S と、クエリ (l, r) を持っている。S の部分文字列 S[l..r)（0-indexed、l 文字目から r 文字目の手前まで）のローリングハッシュ値（B=131, M=1000000007）を求めてください。',
       constraints: ['1 ≤ |S| ≤ 2×10^5', '0 ≤ l < r ≤ |S|'],
-      samples: [{ input: 'abcab\n2 5', output: '1711744' }],
+      input: 'S\nl r',
+      output: '答えを出力してください。',
+      samples: [
+        { input: 'abcab\n2 5', output: '1711744' },
+        { input: 'abcab\n0 5', output: '788516803', note: '文字列全体を指定する場合。' },
+      ],
     },
     solution: {
       idea: '先頭から累積的に h[i] を作り、B のべき乗 p[i] も前計算しておけば、どのクエリも h[r] − h[l]×p[r-l] (mod M) の式 1 つで O(1) に答えられる。全体で前計算 O(N) + クエリ 1 件 O(1)。',
@@ -599,9 +631,14 @@
     ].join('\n'),
     steps,
     example: {
-      statement: 'N 個のマス（0 から N-1）があり、マス i からは next[i] へ 1 歩で進む。開始マスと歩数 D が与えられるので、ちょうど D 歩進んだ先のマス番号を求めよ（D は非常に大きいことがある）。',
-      constraints: ['1 ≤ N ≤ 2×10^5', '0 ≤ D ≤ 10^9'],
-      samples: [{ input: '6\n3 2 0 1 3 4\n1 5', output: '2' }],
+      statement: '高橋君の前には N 個のマス（0 から N-1）があり、マス i からは next_i へ 1 歩で進める。開始マスと歩数 D が与えられるので、ちょうど D 歩進んだ先のマス番号を求めてください（D は非常に大きいことがある）。',
+      constraints: ['1 ≤ N ≤ 2×10^5', '0 ≤ next_i ≤ N-1', '0 ≤ D ≤ 10^9', '入力はすべて整数'],
+      input: 'N\nnext_0 next_1 … next_{N-1}\nstart D',
+      output: '答えを出力してください。',
+      samples: [
+        { input: '6\n3 2 0 1 3 4\n1 5', output: '2' },
+        { input: '6\n3 2 0 1 3 4\n0 0', output: '0', note: 'D = 0 なら動かない。' },
+      ],
     },
     solution: {
       idea: 'table[0][i]=next[i] から始め、table[k][i]=table[k-1][table[k-1][i]] を K=log2(D)+1 段まで作る（前計算 O(N log D)）。D を 2 進法に分解し、立っているビットの k ごとに table[k] を使って進めれば O(log D) で答えが求まる。',
@@ -760,9 +797,14 @@ function buildSegTreeSteps(a, op, identity, opName, labelPrefix) {
     ].join('\n'),
     steps: built.steps,
     example: {
-      statement: '長さ N の数列 a に、Q 個のクエリを順に処理する。クエリは 2 種類: "1 p x"（a[p] を x に変える）、"2 l r"（区間 [l, r) の最小値を出力する）。',
-      constraints: ['1 ≤ N, Q ≤ 2×10^5', '0 ≤ a_i, x ≤ 10^9', '0 ≤ l < r ≤ N'],
-      samples: [{ input: '6 2\n5 2 8 1 9 3\n1 3 0\n2 1 5', output: '0' }],
+      statement: '高橋君は長さ N の数列 A を持っている。Q 個のクエリを順に処理してください。クエリは 2 種類あり、"1 p x" は A_p を x に変える、"2 l r" は区間 [l, r)（0-indexed）の最小値を出力する。',
+      constraints: ['1 ≤ N, Q ≤ 2×10^5', '0 ≤ A_i, x ≤ 10^9', '0 ≤ l < r ≤ N', '入力はすべて整数'],
+      input: 'N Q\nA_1 A_2 … A_N\nクエリ_1\n⋮\nクエリ_Q',
+      output: '"2 l r" のクエリそれぞれについて、答えを 1 行ずつ出力してください。',
+      samples: [
+        { input: '6 2\n5 2 8 1 9 3\n1 3 0\n2 1 5', output: '0' },
+        { input: '3 1\n5 5 5\n2 0 3', output: '5', note: '全区間を問うクエリが 1 回だけの場合。' },
+      ],
     },
     solution: {
       idea: '区間最小値クエリ（RMQ）と 1 点更新をどちらも O(log N) で行うため、反復実装のセグメント木を使う。N を超える最小の 2 べき n を木のサイズとし、葉に元の配列、内部ノードに min を持たせる。',
@@ -858,9 +900,14 @@ function buildSegTreeSteps(a, op, identity, opName, labelPrefix) {
     ].join('\n'),
     steps: built.steps,
     example: {
-      statement: '長さ N の数列 a に、Q 個のクエリを順に処理する。クエリは 2 種類: "1 p x"（a[p] を x に変える）、"2 l r"（区間 [l, r) の和を出力する）。',
-      constraints: ['1 ≤ N, Q ≤ 2×10^5', '0 ≤ a_i, x ≤ 10^9', '0 ≤ l < r ≤ N'],
-      samples: [{ input: '6 2\n1 3 5 7 9 11\n1 2 0\n2 0 4', output: '11' }],
+      statement: '高橋君は長さ N の数列 A を持っている。Q 個のクエリを順に処理してください。クエリは 2 種類あり、"1 p x" は A_p を x に変える、"2 l r" は区間 [l, r)（0-indexed）の和を出力する。',
+      constraints: ['1 ≤ N, Q ≤ 2×10^5', '0 ≤ A_i, x ≤ 10^9', '0 ≤ l < r ≤ N', '入力はすべて整数'],
+      input: 'N Q\nA_1 A_2 … A_N\nクエリ_1\n⋮\nクエリ_Q',
+      output: '"2 l r" のクエリそれぞれについて、答えを 1 行ずつ出力してください。',
+      samples: [
+        { input: '6 2\n1 3 5 7 9 11\n1 2 0\n2 0 4', output: '11' },
+        { input: '3 1\n2 2 2\n2 0 3', output: '6', note: '全区間を問うクエリが 1 回だけの場合。' },
+      ],
     },
     solution: {
       idea: '8.8 の min を + に、単位元を INF の代わりに 0 に変えるだけで、更新ができる区間和（RSQ）が同じ木の形で実現できる。long long で桁あふれに注意する。',
@@ -957,9 +1004,14 @@ function buildSegTreeSteps(a, op, identity, opName, labelPrefix) {
     ].join('\n'),
     steps,
     example: {
-      statement: '長さ N の数列 a と整数 K が与えられる。長さ K の連続する区間（窓）を、左端を 0 から N-K まで 1 つずつ動かしながら、各窓での最小値をすべて求めよ。',
-      constraints: ['1 ≤ K ≤ N ≤ 2×10^5', '1 ≤ a_i ≤ 10^9'],
-      samples: [{ input: '7 3\n4 2 5 1 6 3 7', output: '2 1 1 1 3' }],
+      statement: '高橋君は長さ N の数列 A と整数 K を持っている。長さ K の連続する区間（窓）を、左端を 0 から N-K まで 1 つずつ動かしながら、各窓での最小値をすべて求めてください。',
+      constraints: ['1 ≤ K ≤ N ≤ 2×10^5', '1 ≤ A_i ≤ 10^9', '入力はすべて整数'],
+      input: 'N K\nA_1 A_2 … A_N',
+      output: '各窓の最小値を、左から順に空白区切りで 1 行に出力してください。',
+      samples: [
+        { input: '7 3\n4 2 5 1 6 3 7', output: '2 1 1 1 3' },
+        { input: '3 3\n9 5 7', output: '5', note: 'K = N で窓が 1 個だけの場合。' },
+      ],
     },
     solution: {
       idea: '添字の deque を「値が昇順」になるように保つ単調デック法。新しい添字を入れる前に、末尾から「新しい値以上」の添字を全部追い出す（もう最小値候補になれないため）。先頭が窓から外れたら捨てる。各添字は高々 1 回しか push/pop されないので O(N)。',
