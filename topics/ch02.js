@@ -40,9 +40,14 @@
     ].join('\n'),
     steps,
     example: {
-      statement: 'N 個の整数からなる数列 a と、Q 個のクエリが与えられる。各クエリでは区間 [l, r]（0-indexed、両端含む）が与えられるので、a[l] + a[l+1] + ... + a[r] を求めよ。',
-      constraints: ['1 ≤ N, Q ≤ 1000', '1 ≤ a_i ≤ 10^4', '0 ≤ l ≤ r < N'],
-      samples: [{ input: '5\n1 2 3 4 5\n2\n0 2\n1 4', output: '6\n14' }],
+      statement: '高橋君は N 個の整数からなる数列 A と、Q 個の質問を持っている。i 番目の質問では区間 [L_i, R_i]（0-indexed、両端含む）が与えられるので、A_{L_i} + A_{L_i+1} + … + A_{R_i} を求めてください。',
+      constraints: ['1 ≤ N, Q ≤ 1000', '1 ≤ A_i ≤ 10^4', '0 ≤ L_i ≤ R_i < N', '入力はすべて整数'],
+      input: 'N\nA_1 A_2 … A_N\nQ\nL_1 R_1\n⋮\nL_Q R_Q',
+      output: '各質問について、答えを 1 行ずつ出力してください。',
+      samples: [
+        { input: '5\n1 2 3 4 5\n2\n0 2\n1 4', output: '6\n14' },
+        { input: '1\n5\n1\n0 0', output: '5', note: '区間が 1 要素だけの場合。' },
+      ],
     },
     solution: {
       idea: 'N, Q ≤ 1000 なので、クエリごとに区間をそのまま足しても最大 10^6 回程度で間に合う。',
@@ -117,9 +122,14 @@
     ].join('\n'),
     steps,
     example: {
-      statement: 'N 個の整数からなる数列 a と、Q 個のクエリが与えられる。各クエリでは区間 [l, r]（0-indexed、両端含む）が与えられるので、a[l] + ... + a[r] を求めよ。',
-      constraints: ['1 ≤ N, Q ≤ 2×10^5', '1 ≤ a_i ≤ 10^4', '0 ≤ l ≤ r < N'],
-      samples: [{ input: '5\n1 2 3 4 5\n2\n0 2\n1 4', output: '6\n14' }],
+      statement: '青木君は N 個の整数からなる数列 A と、Q 個の質問を持っている。i 番目の質問では区間 [L_i, R_i]（0-indexed、両端含む）が与えられるので、A_{L_i} + … + A_{R_i} を求めてください。',
+      constraints: ['1 ≤ N, Q ≤ 2×10^5', '1 ≤ A_i ≤ 10^4', '0 ≤ L_i ≤ R_i < N', '入力はすべて整数'],
+      input: 'N\nA_1 A_2 … A_N\nQ\nL_1 R_1\n⋮\nL_Q R_Q',
+      output: '各質問について、答えを 1 行ずつ出力してください。',
+      samples: [
+        { input: '5\n1 2 3 4 5\n2\n0 2\n1 4', output: '6\n14' },
+        { input: '1\n5\n1\n0 0', output: '5', note: '区間が 1 要素だけの場合。' },
+      ],
     },
     solution: {
       idea: '累積和 S を前計算し、各クエリに S[r+1] - S[l] で O(1) で答える。N, Q が大きくても O(N + Q) で間に合う。',
@@ -200,8 +210,10 @@
     ].join('\n'),
     steps,
     example: {
-      statement: '長さ N の数列（最初は全部 0）に対して、Q 個のクエリを処理する。各クエリは区間 [l, r]（0-indexed、両端含む）と整数 v で、a[l], ..., a[r] に v を加える。全クエリを処理した後の数列を出力せよ。',
-      constraints: ['1 ≤ N, Q ≤ 2×10^5', '0 ≤ l ≤ r < N', '1 ≤ v ≤ 1000'],
+      statement: '高橋君は長さ N の数列（最初はすべて 0）を持っている。これから Q 個の操作を行う。i 番目の操作では区間 [L_i, R_i]（0-indexed、両端含む）と整数 V_i が与えられ、区間内のすべての要素に V_i を加える。すべての操作を行った後の数列を求めてください。',
+      constraints: ['1 ≤ N, Q ≤ 2×10^5', '0 ≤ L_i ≤ R_i < N', '1 ≤ V_i ≤ 1000', '入力はすべて整数'],
+      input: 'N\nQ\nL_1 R_1 V_1\n⋮\nL_Q R_Q V_Q',
+      output: '最終的な数列を空白区切りで 1 行に出力してください。',
       samples: [{ input: '5\n2\n0 2 3\n1 4 1', output: '3 4 4 1 1' }],
     },
     solution: {
@@ -284,9 +296,14 @@
     ].join('\n'),
     steps,
     example: {
-      statement: 'H×W のグリッド a と、Q 個のクエリが与えられる。各クエリでは長方形の左上 (r1, c1) と右下 (r2, c2)（0-indexed、両端含む）が与えられるので、その範囲の和を求めよ。',
-      constraints: ['1 ≤ H, W ≤ 1000', '1 ≤ Q ≤ 2×10^5', '0 ≤ a_{i,j} ≤ 1000'],
-      samples: [{ input: '3 3\n1 2 3\n4 5 6\n7 8 9\n1\n0 0 1 1', output: '12' }],
+      statement: '青木君は H×W のグリッド A を持っている。Q 個の質問があり、i 番目の質問では長方形の左上 (R1_i, C1_i) と右下 (R2_i, C2_i)（0-indexed、両端含む）が与えられるので、その範囲の和を求めてください。',
+      constraints: ['1 ≤ H, W ≤ 1000', '1 ≤ Q ≤ 2×10^5', '0 ≤ A_{i,j} ≤ 1000', '入力はすべて整数'],
+      input: 'H W\nA_{1,1} … A_{1,W}\n⋮\nA_{H,1} … A_{H,W}\nQ\nR1_1 C1_1 R2_1 C2_1\n⋮\nR1_Q C1_Q R2_Q C2_Q',
+      output: '各質問について、答えを 1 行ずつ出力してください。',
+      samples: [
+        { input: '3 3\n1 2 3\n4 5 6\n7 8 9\n1\n0 0 1 1', output: '12' },
+        { input: '1 1\n7\n1\n0 0 0 0', output: '7', note: '1×1 のグリッド全体を指定する場合。' },
+      ],
     },
     solution: {
       idea: '2 次元累積和 S を O(HW) で前計算し、クエリは 4 隅の足し引きで O(1) に答える。',
@@ -366,8 +383,10 @@
     ].join('\n'),
     steps,
     example: {
-      statement: 'H×W のグリッド（最初は全部 0）に対して、Q 個のクエリを処理する。各クエリは長方形の左上 (r1, c1)・右下 (r2, c2)（0-indexed、両端含む）と整数 v で、その範囲すべてに v を加える。全クエリを処理した後のグリッドを出力せよ。',
-      constraints: ['1 ≤ H, W ≤ 1000', '1 ≤ Q ≤ 2×10^5', '1 ≤ v ≤ 1000'],
+      statement: '高橋君は H×W のグリッド（最初はすべて 0）を持っている。Q 個の操作があり、i 番目の操作では長方形の左上 (R1_i, C1_i)・右下 (R2_i, C2_i)（0-indexed、両端含む）と整数 V_i が与えられ、その範囲すべてに V_i を加える。すべての操作を行った後のグリッドを求めてください。',
+      constraints: ['1 ≤ H, W ≤ 1000', '1 ≤ Q ≤ 2×10^5', '1 ≤ V_i ≤ 1000', '入力はすべて整数'],
+      input: 'H W\nQ\nR1_1 C1_1 R2_1 C2_1 V_1\n⋮\nR1_Q C1_Q R2_Q C2_Q V_Q',
+      output: '最終的なグリッドを H 行で出力してください（各行は W 個の整数を空白区切りで）。',
       samples: [{ input: '3 3\n1\n0 0 1 1 5', output: '5 5 0\n5 5 0\n0 0 0' }],
     },
     solution: {
@@ -435,8 +454,10 @@
     ].join('\n'),
     steps,
     example: {
-      statement: '初項 a、公差 d、項数 n の等差数列の和（a + (a+d) + (a+2d) + ... + (a+(n-1)d)）を求めよ。',
-      constraints: ['1 ≤ a, d ≤ 10^9', '1 ≤ n ≤ 10^9'],
+      statement: '青木君は初項 A、公差 D、項数 N の等差数列（A, A+D, A+2D, …, A+(N-1)D）の和を求めたい。この和を求めてください。',
+      constraints: ['1 ≤ A, D ≤ 10^9', '1 ≤ N ≤ 10^9', '入力はすべて整数'],
+      input: 'A D N',
+      output: '和を出力してください。',
       samples: [
         { input: '1 1 5', output: '15' },
         { input: '2 3 4', output: '26' },

@@ -47,10 +47,13 @@
     ].join('\n'),
     steps,
     example: {
-      statement: 'N 人の身長が与えられる。すべての 2 人の組について身長差の絶対値を求め、その最大値を出力せよ。',
-      constraints: ['2 ≤ N ≤ 3000', '1 ≤ h_i ≤ 200'],
+      statement: '高橋君のクラスには N 人の生徒がいて、i 番目の生徒の身長は H_i である。異なる 2 人の身長差の絶対値の最大値を求めてください。',
+      constraints: ['2 ≤ N ≤ 3000', '1 ≤ H_i ≤ 200', '入力はすべて整数'],
+      input: 'N\nH_1 H_2 … H_N',
+      output: '答えを出力してください。',
       samples: [
         { input: '4\n160 170 155 180', output: '25' },
+        { input: '2\n100 100', output: '0', note: '身長が同じ 2 人しかいない場合、差は 0。' },
       ],
     },
     solution: {
@@ -110,9 +113,14 @@
     ].join('\n'),
     steps,
     example: {
-      statement: 'N 個の整数からなる数列 a と、整数 X が与えられる。a の中に X と等しい値がいくつあるかを求めよ。',
-      constraints: ['1 ≤ N ≤ 10^5', '1 ≤ a_i, X ≤ 10^9'],
-      samples: [{ input: '6 3\n3 5 3 2 3 7', output: '3' }],
+      statement: '青木君は N 個の整数からなる数列 A と整数 X を持っている。A の中に X と等しい値がいくつあるかを求めてください。',
+      constraints: ['1 ≤ N ≤ 10^5', '1 ≤ A_i, X ≤ 10^9', '入力はすべて整数'],
+      input: 'N X\nA_1 A_2 … A_N',
+      output: '答えを出力してください。',
+      samples: [
+        { input: '6 3\n3 5 3 2 3 7', output: '3' },
+        { input: '1 5\n3', output: '0', note: 'X と一致する値が 1 つもない場合。' },
+      ],
     },
     solution: {
       idea: '配列を 1 回のループで端から見て、X と一致するたびに数える。O(N) で間に合う。',
@@ -177,11 +185,13 @@
     ].join('\n'),
     steps,
     example: {
-      statement: 'N 個の整数からなる数列 a と、整数 K が与えられる。a から異なる 2 つを選んで和が K にできるか判定せよ。',
-      constraints: ['2 ≤ N ≤ 3000', '1 ≤ a_i ≤ 10^6', '1 ≤ K ≤ 2×10^6'],
+      statement: '高橋君は N 個の整数からなる数列 A と整数 K を持っている。A から異なる 2 つを選んで和をちょうど K にできるか判定してください。',
+      constraints: ['2 ≤ N ≤ 3000', '1 ≤ A_i ≤ 10^6', '1 ≤ K ≤ 2×10^6', '入力はすべて整数'],
+      input: 'N K\nA_1 A_2 … A_N',
+      output: '2 つを選んで和を K にできるなら Yes、できないなら No を出力してください。',
       samples: [
         { input: '5 9\n2 7 4 1 5', output: 'Yes' },
-        { input: '4 100\n1 2 3 4', output: 'No' },
+        { input: '4 100\n1 2 3 4', output: 'No', note: 'どの 2 つを選んでも和が K にならない場合。' },
       ],
     },
     solution: {
@@ -253,11 +263,13 @@
     ].join('\n'),
     steps,
     example: {
-      statement: 'N 個の整数からなる数列 a と、整数 S が与えられる。a から異なる 3 つを選んで和が S にできるか判定せよ。',
-      constraints: ['3 ≤ N ≤ 200', '1 ≤ a_i ≤ 10^4', '1 ≤ S ≤ 3×10^4'],
+      statement: '青木君は N 個の整数からなる数列 A と整数 S を持っている。A から異なる 3 つを選んで和をちょうど S にできるか判定してください。',
+      constraints: ['3 ≤ N ≤ 200', '1 ≤ A_i ≤ 10^4', '1 ≤ S ≤ 3×10^4', '入力はすべて整数'],
+      input: 'N S\nA_1 A_2 … A_N',
+      output: '3 つを選んで和を S にできるなら Yes、できないなら No を出力してください。',
       samples: [
         { input: '5 10\n1 2 3 4 5', output: 'Yes' },
-        { input: '5 100\n1 2 3 4 5', output: 'No' },
+        { input: '5 100\n1 2 3 4 5', output: 'No', note: 'どの 3 つを選んでも和が S にならない場合。' },
       ],
     },
     solution: {
@@ -329,11 +341,13 @@
     ].join('\n'),
     steps,
     example: {
-      statement: '整数 N が与えられる。N を 2 進法で表記したものを出力せよ（先頭に余計な 0 は付けない。N = 0 のときは 0 と出力）。',
-      constraints: ['0 ≤ N ≤ 10^9'],
+      statement: '高橋君は整数 N を持っている。N を 2 進法で表記したものを求めてください（先頭に余計な 0 は付けない。N = 0 のときは 0 と出力してください）。',
+      constraints: ['0 ≤ N ≤ 10^9', '入力はすべて整数'],
+      input: 'N',
+      output: '2 進法表記を出力してください。',
       samples: [
         { input: '13', output: '1101' },
-        { input: '0', output: '0' },
+        { input: '0', output: '0', note: 'N = 0 のときは 0 と出力する。' },
       ],
     },
     solution: {
@@ -408,9 +422,14 @@
     ].join('\n'),
     steps,
     example: {
-      statement: '0 以上 15 以下の整数 A, B が与えられる（4 桁の 2 進法で表せる）。A と B のビットごとの AND, OR, XOR を順に求めよ。',
-      constraints: ['0 ≤ A, B ≤ 15'],
-      samples: [{ input: '12 10', output: '8 14 6' }],
+      statement: '青木君は 0 以上 15 以下の整数 A, B を持っている（4 桁の 2 進法で表せる）。A と B のビットごとの AND, OR, XOR を順に求めてください。',
+      constraints: ['0 ≤ A, B ≤ 15', '入力はすべて整数'],
+      input: 'A B',
+      output: 'AND, OR, XOR の値をこの順に空白区切りで出力してください。',
+      samples: [
+        { input: '12 10', output: '8 14 6' },
+        { input: '0 0', output: '0 0 0', note: '両方 0 のときはすべて 0 になる。' },
+      ],
     },
     solution: {
       idea: '4 つの桁それぞれについて、A と B のその桁の値を取り出して AND・OR・XOR の定義どおりに判定し、結果の対応する桁に 1 を立てる。',
@@ -482,11 +501,13 @@
     ].join('\n'),
     steps,
     example: {
-      statement: 'N 個の品物の重さ w が与えられる。いくつか（0 個でもよい）を選んで、重さの合計をちょうど S にできるか判定せよ。',
-      constraints: ['1 ≤ N ≤ 15', '1 ≤ w_i ≤ 1000', '1 ≤ S ≤ 10^4'],
+      statement: '高橋君は N 個の品物を持っていて、i 番目の品物の重さは W_i である。いくつか（0 個でもよい）を選んで、重さの合計をちょうど S にできるか判定してください。',
+      constraints: ['1 ≤ N ≤ 15', '1 ≤ W_i ≤ 1000', '1 ≤ S ≤ 10^4', '入力はすべて整数'],
+      input: 'N S\nW_1 W_2 … W_N',
+      output: '重さの合計を S にできるなら Yes、できないなら No を出力してください。',
       samples: [
         { input: '4 9\n2 3 5 7', output: 'Yes' },
-        { input: '4 100\n2 3 5 7', output: 'No' },
+        { input: '4 100\n2 3 5 7', output: 'No', note: 'どう選んでも合計が S にならない場合。' },
       ],
     },
     solution: {

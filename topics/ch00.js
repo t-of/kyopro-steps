@@ -30,9 +30,14 @@
     ].join('\n'),
     steps,
     example: {
-      statement: '標準入力から整数 A, B が与えられる。A + B を標準出力に出力せよ。',
-      constraints: ['1 ≤ A, B ≤ 100'],
-      samples: [{ input: '3 5', output: '8' }],
+      statement: '高橋君は 2 つの整数 A, B を持っている。A + B の値を求めてください。',
+      constraints: ['1 ≤ A, B ≤ 100', '入力はすべて整数'],
+      input: 'A B',
+      output: 'A + B の値を出力してください。',
+      samples: [
+        { input: '3 5', output: '8' },
+        { input: '100 100', output: '200', note: 'A, B がどちらも最大の場合。' },
+      ],
     },
     solution: {
       idea: '2 つの整数を変数に読み込み、足した結果をそのまま出力するだけ。',
